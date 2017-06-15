@@ -1,0 +1,10 @@
+cmake_minimum_required (VERSION 2.6)
+project (OpenGL)
+set(LEARNING_OPENGL_MAJOR 1)
+set(LEARNING_OPENGL_MINOR 0)
+
+set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/bin)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+
+add_executable(OpenGL ${PROJECT_SOURCE_DIR}/src/main.cpp)
