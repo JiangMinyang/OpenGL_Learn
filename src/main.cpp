@@ -2,13 +2,16 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include "window.h"
+#include "Window.h"
+#include "Shader.h"
+#include "Vertex.h"
+#include "Mesh.h"
 const int WIDTH = 800;
 const int HEIGHT = 600;
 
 int main(void) {
   glfwInit();
-  
+
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -16,16 +19,32 @@ int main(void) {
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
   Window window(WIDTH, HEIGHT, "OpenGL");
-  glfwMakeContextCurrent(window.getWindow());
+  window.setAsCurrent();
 
-  while (!glfwWindowShouldClose(window.getWindow())) {
-    glfwPollEvents();
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+  glewExperimental = GL_TRUE;
+  glewInit();
 
-    glfwSwapBuffers(window.getWindow());
+  Shader shader;
+  shader.loadShader("../resource/shader/basicShader.vert", GL_VERTEX_SHADER);
+  shader.loadShader("../resource/shader/basicShader.frag", GL_FRAGMENT_SHADER);
+  shader.linkShader();
+
+  Vertex vertices[] = { Vertex(glm::vec3(-0.5f, -0.5f, 0.0f)),
+                        Vertex(glm::vec3(0.5f, -0.5f, 0.0f)),
+                        Vertex(glm::vec3(0.0f,  0.5f, 0.0f)) };
+
+  Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+
+  while (!window.isClosed()) {
+
+    shader.activate();
+
+    window.clear(0.2f, 0.3f, 0.4f, 1.0f);
+
+    mesh.draw();
+
+    window.update();
   }
 
-  glfwTerminate();
   return 0;
 }
