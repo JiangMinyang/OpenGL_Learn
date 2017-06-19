@@ -1,4 +1,6 @@
 #include "Shader.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -16,11 +18,21 @@ void Shader::loadShader(const std::string &fileName, const GLuint &shaderType) {
       index = 1;
       break;
   }
-  const char *shaderContent = loadFile(fileName).c_str();
+
+  std::string content = loadFile(fileName);
+  char* shaderContent = new char[content.size() + 1];
+  std::copy(content.begin(), content.end(), shaderContent);
+  shaderContent[content.size()] = '\0';
+
   shaders[index] = glCreateShader(shaderType);
   glShaderSource(shaders[index], 1, &shaderContent, NULL);
   glCompileShader(shaders[index]);
-  checkShaderError(shaders[index], GL_COMPILE_STATUS, false, "ERROR WHEN COMPILING SHADER");
+
+  std::string errorMessage = "ERROR WHEN COMPILING ";
+  errorMessage += (shaderType == GL_VERTEX_SHADER ? "VERTEX" : "FRAGMENT");
+  errorMessage += " SHADER";
+  checkShaderError(shaders[index], GL_COMPILE_STATUS, false, errorMessage);
+  delete[] shaderContent;
 }
 
 std::string Shader::loadFile(const std::string &fileName) {

@@ -1,14 +1,11 @@
 find_package(PkgConfig REQUIRED)
 #find_package(GLFW3 3.3 REQUIRED)
-find_package(glfw3 3.2 REQUIRED)
+find_package(glfw3 3.3 REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(${GLFW_INCLUDE_DIRS})
 include_directories(${GLEW_INCLUDE_DIRS})
-
-#Bring headers to the project
-include_directories(${PROJECT_SOURCE_DIR}/include)
 
 file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
