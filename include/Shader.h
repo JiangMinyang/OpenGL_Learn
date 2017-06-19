@@ -12,6 +12,7 @@ public:
   void loadShader(const std::string &fileName, const GLuint &shaderType);
   void linkShader();
   void activate();
+  GLuint getProgram();
 
 private:
   static const unsigned int NUM_SHADERS = 2;
