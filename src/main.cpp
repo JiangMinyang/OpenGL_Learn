@@ -31,18 +31,17 @@ int main(void) {
   shader.linkShader();
 
   Vertex vertices[] = { Vertex(glm::vec3(-0.5f, -0.5f, 0.0f)),
+                        Vertex(glm::vec3(-0.5f, 0.5f, 0.0f)),
                         Vertex(glm::vec3(0.5f, -0.5f, 0.0f)),
-                        Vertex(glm::vec3(0.0f,  0.5f, 0.0f)) };
+                        Vertex(glm::vec3(0.5f, -0.5f, 0.0f)),
+                        Vertex(glm::vec3(0.5f,  0.5f, 0.0f)),
+                        Vertex(glm::vec3(-0.5f, 0.5f, 0.0f)) };
 
   Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
 
   while (!window.isClosed()) {
 
-float timeValue = glfwGetTime();
-float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-int vertexColorLocation = glGetUniformLocation(shader.getProgram(), "green");
     shader.activate();
-glUniform1f(vertexColorLocation, greenValue);
 
     window.clear(0.2f, 0.3f, 0.4f, 1.0f);
 
