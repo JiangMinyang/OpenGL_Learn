@@ -9,6 +9,8 @@ public:
   Mesh(Vertex *vertex, unsigned int numVertices);
   ~Mesh();
   void draw();
+  void bind();
+  void unbind();
 private:
   static const int NUM_BUFFERS = 2;
   GLuint vertexArrayObject;

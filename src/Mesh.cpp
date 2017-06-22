@@ -33,10 +33,14 @@ Mesh::~Mesh() {
   glDeleteVertexArrays(1, &vertexArrayObject);
 }
 
-void Mesh::draw() {
+void Mesh::bind() {
   glBindVertexArray(vertexArrayObject);
-  
-  glDrawArrays(GL_TRIANGLES, 0, drawCount);
+}
 
+void Mesh::draw() {
+  glDrawArrays(GL_TRIANGLES, 0, drawCount);
+}
+
+void Mesh::unbind() {
   glBindVertexArray(0);
 }
