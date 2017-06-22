@@ -31,7 +31,7 @@ int main(void) {
   shader.loadShader("../resource/shader/basicShader.frag", GL_FRAGMENT_SHADER);
   shader.linkShader();
 
-  Texture texture("../resource/images/container.jpg");
+  Texture texture("../resource/images/container.jpg", GL_RGB);
   Texture texture2("../resource/images/awesomeface.png", GL_RGBA);
 
   Vertex vertices[] = { Vertex(glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec2(0.0, 0.0)),
