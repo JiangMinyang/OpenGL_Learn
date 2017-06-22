@@ -3,6 +3,10 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include "Window.h"
 #include "Shader.h"
 #include "Vertex.h"
@@ -54,6 +58,13 @@ int main(void) {
     window.clear(0.2f, 0.3f, 0.4f, 1.0f);
     texture.bind(0);
     texture2.bind(1);
+
+    glm::mat4 transform;
+    transform = glm::scale(transform, glm::vec3(1.5 * ((float)glfwGetTime() / 10), 1.5 * ((float)glfwGetTime() / 10), 1.0));
+    transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f)); 
+    unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
     mesh.draw();
 
     window.update();
