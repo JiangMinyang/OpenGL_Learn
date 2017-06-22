@@ -1,6 +1,8 @@
 #version 330
 layout (location = 0) in vec3 position;
-out vec3 vertexColor;
+layout (location = 1) in vec2 text;
+out vec2 textureCoord;
 void main() {
   gl_Position = vec4(position, 1.0);
+  textureCoord = text;
 }

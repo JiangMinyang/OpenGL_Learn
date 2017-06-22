@@ -10,9 +10,9 @@ public:
   ~Mesh();
   void draw();
 private:
-  static const int NUM_BUFFERS = 1;
+  static const int NUM_BUFFERS = 2;
   GLuint vertexArrayObject;
-  GLuint vertexBufferObject;
+  GLuint vertexBufferObjects[NUM_BUFFERS];
   unsigned int drawCount;
 };
 

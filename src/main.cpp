@@ -7,7 +7,7 @@
 #include "Shader.h"
 #include "Vertex.h"
 #include "Mesh.h"
-#include "stb_image.h"
+#include "Texture.h"
 const int WIDTH = 800;
 const int HEIGHT = 600;
 
@@ -31,21 +31,29 @@ int main(void) {
   shader.loadShader("../resource/shader/basicShader.frag", GL_FRAGMENT_SHADER);
   shader.linkShader();
 
-  Vertex vertices[] = { Vertex(glm::vec3(-0.5f, -0.5f, 0.0f)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, 0.0f)),
-                        Vertex(glm::vec3(0.5f, -0.5f, 0.0f)),
-                        Vertex(glm::vec3(0.5f, -0.5f, 0.0f)),
-                        Vertex(glm::vec3(0.5f,  0.5f, 0.0f)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, 0.0f)) };
+  Texture texture("../resource/images/container.jpg");
+  Texture texture2("../resource/images/awesomeface.png", GL_RGBA);
+
+  Vertex vertices[] = { Vertex(glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec2(0.0, 0.0)),
+                        Vertex(glm::vec3(-0.5f, 0.5f, 0.0f), glm::vec2(0.0, 1.0)),
+                        Vertex(glm::vec3(0.5f, -0.5f, 0.0f), glm::vec2(1.0, 0.0)),
+                        Vertex(glm::vec3(0.5f, -0.5f, 0.0f), glm::vec2(1.0, 0.0)),
+                        Vertex(glm::vec3(0.5f,  0.5f, 0.0f), glm::vec2(1.0, 1.0)),
+                        Vertex(glm::vec3(-0.5f, 0.5f, 0.0f), glm::vec2(0.0, 1.0)) };
 
   Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+
+  shader.activate();
+  glUniform1i(glGetUniformLocation(shader.getProgram(), "texture1"), 0);
+  glUniform1i(glGetUniformLocation(shader.getProgram(), "texture2"), 1);
 
   while (!window.isClosed()) {
 
     shader.activate();
 
     window.clear(0.2f, 0.3f, 0.4f, 1.0f);
-
+    texture.bind(0);
+    texture2.bind(1);
     mesh.draw();
 
     window.update();
