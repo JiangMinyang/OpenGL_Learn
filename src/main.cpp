@@ -108,36 +108,36 @@ int main(void) {
     texture.bind(0);
     texture2.bind(1);
 
-    // glm::mat4 view;
-    // glm::mat4 projection;
-    // projection = glm::perspective(glm::radians(45.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
-    // view       = glm::translate(view, glm::vec3(1.0f, 0.0f, -5.0f));
-    // view       = glm::rotate(view, (float)glfwGetTime(), glm::vec3(0.0, 1.0, 0.0));
-    // unsigned int projectionLoc = glGetUniformLocation(shader.getProgram(), "projection");
-    // glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    // unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
-    // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    glm::mat4 transform;
-    transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
-    transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f)); 
-    unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+    glm::mat4 view;
+    glm::mat4 projection;
+    projection = glm::perspective(glm::radians(70.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+    view       = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+    view       = glm::rotate(view, (float)glfwGetTime(), glm::vec3(0, 1, 0));
+    unsigned int projectionLoc = glGetUniformLocation(shader.getProgram(), "projection");
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    // glm::mat4 transform;
+    // transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
+    // transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f)); 
+    // unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
+    // glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
     // mesh.draw();
     mesh.bind();
-    // for (unsigned int i = 0; i < 10; i++) {
-    //   // calculate the model matrix for each object and pass it to shader before drawing
-    //   glm::mat4 model;
-    //   model = glm::translate(model, cubePositions[i]);
-    //   float angle = 20.0f * i;
-    //   model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-    //   unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
-    //   glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
+    for (unsigned int i = 0; i < 10; i++) {
+      // calculate the model matrix for each object and pass it to shader before drawing
+      glm::mat4 model;
+      model = glm::translate(model, cubePositions[i]);
+      float angle = 20.0f * i;
+      model = glm::rotate(model, glm::radians(angle) + (float)glfwGetTime(), glm::vec3(1.0f, 0.3f, 0.5f));
+      unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
+      glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-    //   // glDrawArrays(GL_TRIANGLES, 0, 36);
-    //   mesh.draw();
-    // }
-    mesh.draw();
+      // glDrawArrays(GL_TRIANGLES, 0, 36);
+      mesh.draw();
+    }
+    // mesh.draw();
 
     mesh.unbind();
 
