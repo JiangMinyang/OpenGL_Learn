@@ -12,6 +12,8 @@
 #include "Vertex.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Face.h"
+
 const int WIDTH = 800;
 const int HEIGHT = 600;
 
@@ -41,45 +43,16 @@ int main(void) {
   Vertex vertices[] = { Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 0.0)),
                         Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0, 1.0)),
                         Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
                         Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0, 1.0)),
 
                         Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
                         Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
                         Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 1.0)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
+                        Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 1.0)) };
 
-                        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
-                        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0, 1.0)),
-                        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0)),
-                        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0, 1.0)),
-
-                        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 0.0)),
-                        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0)),
-                        Vertex(glm::vec3(0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
-
-                        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
-                        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 1.0)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(-0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0)),
-                        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 1.0)),
-
-                        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
-                        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0, 1.0)),
-                        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f,  -0.5f, 0.5f), glm::vec2(1.0, 1.0)),
-                        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0, 1.0)) };
-
+  Face faces[] = { Face(glm::ivec3(0, 1, 2)), Face(glm::ivec3(2, 3, 1)), Face(glm::ivec3(4, 5, 6)), Face(glm::ivec3(6, 7, 5)), Face(glm::ivec3(8, 2, 7)), Face(glm::ivec3(7, 3, 2)), 
+                   Face(glm::ivec3(5, 7, 1)), Face(glm::ivec3(1, 3, 7)), Face(glm::ivec3(4, 0, 5)), Face(glm::ivec3(5, 1, 0)), Face(glm::ivec3(4, 6, 0)), Face(glm::ivec3(0, 2, 6)) };
+                   
   glm::vec3 cubePositions[] = {
         glm::vec3( 0.0f,  0.0f,  0.0f),
         glm::vec3( 2.0f,  5.0f, -15.0f),
@@ -93,11 +66,11 @@ int main(void) {
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
-  Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]));
+  Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), faces, sizeof(faces) / sizeof(faces[0]));
   glEnable(GL_DEPTH_TEST);
   shader.activate();
-  glUniform1i(glGetUniformLocation(shader.getProgram(), "texture1"), 0);
-  glUniform1i(glGetUniformLocation(shader.getProgram(), "texture2"), 1);
+  // glUniform1i(glGetUniformLocation(shader.getProgram(), "texture1"), 0);
+  // glUniform1i(glGetUniformLocation(shader.getProgram(), "texture2"), 1);
 
   while (!window.isClosed()) {
 
@@ -105,39 +78,41 @@ int main(void) {
 
     window.clear(0.2f, 0.3f, 0.4f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    texture.bind(0);
-    texture2.bind(1);
+    // texture.bind(0);
+    // texture2.bind(1);
 
-    glm::mat4 view;
-    glm::mat4 projection;
-    projection = glm::perspective(glm::radians(70.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
-    view       = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
-    view       = glm::rotate(view, (float)glfwGetTime(), glm::vec3(0, 1, 0));
-    unsigned int projectionLoc = glGetUniformLocation(shader.getProgram(), "projection");
-    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-    // glm::mat4 transform;
-    // transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
-    // transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f)); 
-    // unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
-    // glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+    // glm::mat4 view;
+    // glm::mat4 projection;
+    // projection = glm::perspective(glm::radians(70.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+    // view       = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+    // view       = glm::rotate(view, (float)glfwGetTime(), glm::vec3(0, 1, 0));
+    // unsigned int projectionLoc = glGetUniformLocation(shader.getProgram(), "projection");
+    // glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    // unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
+    // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+    glm::mat4 transform;
+    transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
+    transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f)); 
+    unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
     // mesh.draw();
     mesh.bind();
-    for (unsigned int i = 0; i < 10; i++) {
-      // calculate the model matrix for each object and pass it to shader before drawing
-      glm::mat4 model;
-      model = glm::translate(model, cubePositions[i]);
-      float angle = 20.0f * i;
-      model = glm::rotate(model, glm::radians(angle) + (float)glfwGetTime(), glm::vec3(1.0f, 0.3f, 0.5f));
-      unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
-      glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
+    // for (unsigned int i = 0; i < 10; i++) {
+    //   // calculate the model matrix for each object and pass it to shader before drawing
+    //   glm::mat4 model;
+    //   model = glm::translate(model, cubePositions[i]);
+    //   model = glm::translate(model, glm::vec3(0, 0, 3));
+    //   float angle = 20.0f * i;
+    //   model = glm::rotate(model, glm::radians(angle) + (float)glfwGetTime(), glm::vec3(1.0f, 0.3f, 0.5f));
+    //   unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
+    //   glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-      // glDrawArrays(GL_TRIANGLES, 0, 36);
-      mesh.draw();
-    }
-    // mesh.draw();
+    //   // glDrawArrays(GL_TRIANGLES, 0, 36);
+    //   mesh.draw();
+    // }
+    mesh.draw();
 
     mesh.unbind();
 
