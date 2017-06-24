@@ -2,6 +2,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -40,33 +42,61 @@ int main(void) {
   Texture texture("../resource/images/container.jpg", GL_RGB);
   Texture texture2("../resource/images/awesomeface.png", GL_RGBA);
 
-  Vertex vertices[] = { Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 0.0)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0, 1.0)),
-                        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0)),
+  // Vertex vertices[] = { Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 0.0)),
+  //                       Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0, 1.0)),
+  //                       Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
+  //                       Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0)),
 
-                        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
-                        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 1.0)) };
+  //                       Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
+  //                       Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
+  //                       Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0, 0.0)),
+  //                       Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 1.0)) };
 
-  Face faces[] = { Face(glm::ivec3(0, 1, 2)), Face(glm::ivec3(2, 3, 1)), Face(glm::ivec3(4, 5, 6)), Face(glm::ivec3(6, 7, 5)), Face(glm::ivec3(8, 2, 7)), Face(glm::ivec3(7, 3, 2)), 
-                   Face(glm::ivec3(5, 7, 1)), Face(glm::ivec3(1, 3, 7)), Face(glm::ivec3(4, 0, 5)), Face(glm::ivec3(5, 1, 0)), Face(glm::ivec3(4, 6, 0)), Face(glm::ivec3(0, 2, 6)) };
+  // Face faces[] = { Face(glm::ivec3(0, 1, 2)), Face(glm::ivec3(2, 3, 1)), Face(glm::ivec3(4, 5, 6)), Face(glm::ivec3(6, 7, 5)), Face(glm::ivec3(8, 2, 7)), Face(glm::ivec3(7, 3, 2)), 
+  //                  Face(glm::ivec3(5, 7, 1)), Face(glm::ivec3(1, 3, 7)), Face(glm::ivec3(4, 0, 5)), Face(glm::ivec3(5, 1, 0)), Face(glm::ivec3(4, 6, 0)), Face(glm::ivec3(0, 2, 6)) };
+
+  
                    
-  glm::vec3 cubePositions[] = {
-        glm::vec3( 0.0f,  0.0f,  0.0f),
-        glm::vec3( 2.0f,  5.0f, -15.0f),
-        glm::vec3(-1.5f, -2.2f, -2.5f),
-        glm::vec3(-3.8f, -2.0f, -12.3f),
-        glm::vec3( 2.4f, -0.4f, -3.5f),
-        glm::vec3(-1.7f,  3.0f, -7.5f),
-        glm::vec3( 1.3f, -2.0f, -2.5f),
-        glm::vec3( 1.5f,  2.0f, -2.5f),
-        glm::vec3( 1.5f,  0.2f, -1.5f),
-        glm::vec3(-1.3f,  1.0f, -1.5f)
-    };
+  // glm::vec3 cubePositions[] = {
+  //       glm::vec3( 0.0f,  0.0f,  0.0f),
+  //       glm::vec3( 2.0f,  5.0f, -15.0f),
+  //       glm::vec3(-1.5f, -2.2f, -2.5f),
+  //       glm::vec3(-3.8f, -2.0f, -12.3f),
+  //       glm::vec3( 2.4f, -0.4f, -3.5f),
+  //       glm::vec3(-1.7f,  3.0f, -7.5f),
+  //       glm::vec3( 1.3f, -2.0f, -2.5f),
+  //       glm::vec3( 1.5f,  2.0f, -2.5f),
+  //       glm::vec3( 1.5f,  0.2f, -1.5f),
+  //       glm::vec3(-1.3f,  1.0f, -1.5f)
+  //   };
 
-  Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), faces, sizeof(faces) / sizeof(faces[0]));
+  std::vector<Vertex> vectices;
+  std::vector<Face> faces;
+
+  std::fstream fs;
+  fs.open("../resource/objs/teapot.obj");
+  std::string line;
+  while (getline(fs, line)) {
+    if (line.size() > 0) {
+      if (line[0] == 'v') {
+        std::stringstream ss(line);
+        char c;
+        float x, y, z;
+        ss >> c >> x >> y >> z;
+        vectices.push_back(Vertex(glm::vec3(x, y, z)));
+      }
+      if (line[0] == 'f') {
+        std::stringstream ss(line);
+        char c;
+        int x, y, z;
+        ss >> c >> x >> y >> z;
+        faces.push_back(Face(glm::ivec3(x - 1, y - 1, z - 1)));
+      }
+    }
+  }
+
+  // Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), faces, sizeof(faces) / sizeof(faces[0]));
+  Mesh mesh(vectices, vectices.size(), faces, faces.size());
   glEnable(GL_DEPTH_TEST);
   shader.activate();
   // glUniform1i(glGetUniformLocation(shader.getProgram(), "texture1"), 0);
@@ -81,21 +111,21 @@ int main(void) {
     // texture.bind(0);
     // texture2.bind(1);
 
-    // glm::mat4 view;
-    // glm::mat4 projection;
-    // projection = glm::perspective(glm::radians(70.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
-    // view       = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
-    // view       = glm::rotate(view, (float)glfwGetTime(), glm::vec3(0, 1, 0));
-    // unsigned int projectionLoc = glGetUniformLocation(shader.getProgram(), "projection");
-    // glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-    // unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
-    // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    glm::mat4 view;
+    glm::mat4 projection;
+    projection = glm::perspective(glm::radians(70.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+    view       = glm::translate(view, glm::vec3(0.0f, -2.0f, -5.0f));
+    view       = glm::rotate(view, (float)glfwGetTime(), glm::vec3(0, 1, 0));
+    unsigned int projectionLoc = glGetUniformLocation(shader.getProgram(), "projection");
+    glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+    unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
+    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
-    glm::mat4 transform;
-    transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
-    transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f)); 
-    unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+    // glm::mat4 transform;
+    // transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
+    // transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f)); 
+    // unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
+    // glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
     // mesh.draw();
     mesh.bind();
