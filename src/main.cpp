@@ -12,7 +12,6 @@
 #include "Vertex.h"
 #include "Mesh.h"
 #include "Texture.h"
-#include "Face.h"
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
@@ -69,8 +68,8 @@ int main(void) {
   Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), faces, sizeof(faces) / sizeof(faces[0]));
   glEnable(GL_DEPTH_TEST);
   shader.activate();
-  // glUniform1i(glGetUniformLocation(shader.getProgram(), "texture1"), 0);
-  // glUniform1i(glGetUniformLocation(shader.getProgram(), "texture2"), 1);
+  glUniform1i(glGetUniformLocation(shader.getProgram(), "texture1"), 0);
+  glUniform1i(glGetUniformLocation(shader.getProgram(), "texture2"), 1);
 
   while (!window.isClosed()) {
 

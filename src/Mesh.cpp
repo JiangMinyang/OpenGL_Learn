@@ -12,7 +12,7 @@ Mesh::Mesh(Vertex *vertices, unsigned int numVertices, Face *faces, unsigned int
 
   for(int i = 0; i < numVertices; i++) {
     position.push_back(*vertices[i].getPosition());
-    // textureCoord.push_back(*vertices[i].getTextureCoord());
+    textureCoord.push_back(*vertices[i].getTextureCoord());
   }
 
   glBindVertexArray(vertexArrayObject);
@@ -27,11 +27,11 @@ Mesh::Mesh(Vertex *vertices, unsigned int numVertices, Face *faces, unsigned int
   glEnableVertexAttribArray(0);
 
 
-  // glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjects[1]);
-  // glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(textureCoord[0]), &textureCoord[0], GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjects[1]);
+  glBufferData(GL_ARRAY_BUFFER, numVertices * sizeof(textureCoord[0]), &textureCoord[0], GL_STATIC_DRAW);
 
-  // glEnableVertexAttribArray(1);
-  // glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+  glEnableVertexAttribArray(1);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
 
   glBindVertexArray(0);
 }
