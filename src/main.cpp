@@ -39,18 +39,18 @@ int main(void) {
   Texture texture("../resource/images/container.jpg", GL_RGB);
   Texture texture2("../resource/images/awesomeface.png", GL_RGBA);
 
-  Vertex vertices[] = { Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 0.0)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0, 1.0)),
-                        Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0)),
+  std::vector<Vertex> vertices = { Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0, 1.0)),
+                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0)),
+                                  Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
+                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 1.0)) };
 
-                        Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
-                        Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
-                        Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                        Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 1.0)) };
-
-  Face faces[] = { Face(glm::ivec3(0, 1, 2)), Face(glm::ivec3(2, 3, 1)), Face(glm::ivec3(4, 5, 6)), Face(glm::ivec3(6, 7, 5)), Face(glm::ivec3(8, 2, 7)), Face(glm::ivec3(7, 3, 2)), 
-                   Face(glm::ivec3(5, 7, 1)), Face(glm::ivec3(1, 3, 7)), Face(glm::ivec3(4, 0, 5)), Face(glm::ivec3(5, 1, 0)), Face(glm::ivec3(4, 6, 0)), Face(glm::ivec3(0, 2, 6)) };
+  // std::vector<glm::ivec3> indices = { glm::ivec3(0, 1, 2), glm::ivec3(2, 3, 1), glm::ivec3(4, 5, 6), glm::ivec3(6, 7, 5), glm::ivec3(8, 2, 7), glm::ivec3(7, 3, 2), 
+                                      // glm::ivec3(5, 7, 1), glm::ivec3(1, 3, 7), glm::ivec3(4, 0, 5), glm::ivec3(5, 1, 0), glm::ivec3(4, 6, 0), glm::ivec3(0, 2, 6) };
+  std::vector<glm::ivec3> indices = {glm::ivec3(0, 1, 2), glm::ivec3(2, 3, 1)};
                    
   glm::vec3 cubePositions[] = {
         glm::vec3( 0.0f,  0.0f,  0.0f),
@@ -65,7 +65,7 @@ int main(void) {
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
-  Mesh mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), faces, sizeof(faces) / sizeof(faces[0]));
+  Mesh mesh(vertices, indices);
   glEnable(GL_DEPTH_TEST);
   shader.activate();
   glUniform1i(glGetUniformLocation(shader.getProgram(), "texture1"), 0);
@@ -77,8 +77,8 @@ int main(void) {
 
     window.clear(0.2f, 0.3f, 0.4f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // texture.bind(0);
-    // texture2.bind(1);
+    texture.bind(0);
+    texture2.bind(1);
 
     // glm::mat4 view;
     // glm::mat4 projection;
