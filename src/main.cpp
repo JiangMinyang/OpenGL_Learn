@@ -74,7 +74,7 @@ int main(void) {
 
 
   // Camera camera(glm::vec3(0.0, 0.0, 3.0), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-  Camera *camera = new Camera();
+  Camera camera;
   // camera.setCameraPosition(glm::vec3(0.0, 0.0, 3.0)).setCameraFront(glm::vec3(0.0, 0.0, -1.0)).setCameraUp(glm::vec3(0.0, 1.0, 0.0));
   // camera.setCameraPosition(glm::vec3(-3.0, 0.0, 0.0)).setCameraFront(glm::vec3(1, 0, 0));
   while (!window.isClosed()) {
@@ -97,7 +97,7 @@ int main(void) {
     // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     
     unsigned int model = glGetUniformLocation(shader.getProgram(), "model");
-    glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(projection * camera->getView()));
+    glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(projection * camera.getView()));
 
     glm::mat4 transform;
     transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));

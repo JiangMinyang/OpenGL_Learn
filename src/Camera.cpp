@@ -1,7 +1,5 @@
 #include "Camera.h"
-#define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/string_cast.hpp"
-#include <iostream>
+
 Camera::Camera() : Camera(glm::vec3(0.0, 0.0, 5.0), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0)) {
   updateView();
 }
