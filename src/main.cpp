@@ -12,6 +12,7 @@
 #include "Vertex.h"
 #include "Mesh.h"
 #include "Texture.h"
+#include "Camera.h"
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
@@ -71,6 +72,11 @@ int main(void) {
   glUniform1i(glGetUniformLocation(shader.getProgram(), "texture1"), 0);
   glUniform1i(glGetUniformLocation(shader.getProgram(), "texture2"), 1);
 
+
+  // Camera camera(glm::vec3(0.0, 0.0, 3.0), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+  Camera camera;
+  camera.setCameraPosition(glm::vec3(0.0, 0.0, 3.0)).setCameraFront(glm::vec3(0.0, 0.0, -1.0)).setCameraUp(glm::vec3(0.0, 1.0, 0.0));
+  // camera.setCameraPosition(glm::vec3(-3.0, 0.0, 0.0)).setCameraFront(glm::vec3(1, 0, 0));
   while (!window.isClosed()) {
 
     shader.activate();
@@ -81,14 +87,17 @@ int main(void) {
     texture2.bind(1);
 
     // glm::mat4 view;
-    // glm::mat4 projection;
-    // projection = glm::perspective(glm::radians(70.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+    glm::mat4 projection; 
+    projection = glm::perspective(glm::radians(70.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
     // view       = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
     // view       = glm::rotate(view, (float)glfwGetTime(), glm::vec3(0, 1, 0));
     // unsigned int projectionLoc = glGetUniformLocation(shader.getProgram(), "projection");
     // glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
     // unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
     // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    
+    unsigned int model = glGetUniformLocation(shader.getProgram(), "model");
+    glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(projection * camera.getView()));
 
     glm::mat4 transform;
     transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
