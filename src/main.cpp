@@ -41,18 +41,35 @@ int main(void) {
   Texture texture2("../resource/images/awesomeface.png", GL_RGBA);
 
   std::vector<Vertex> vertices = { Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 0.0)),
-                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0, 1.0)),
-                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0, 1.0)),
                                   Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0)),
-                                  Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
-                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
-                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 1.0)) };
 
-  // std::vector<glm::ivec3> indices = { glm::ivec3(0, 1, 2), glm::ivec3(2, 3, 1), glm::ivec3(4, 5, 6), glm::ivec3(6, 7, 5), glm::ivec3(8, 2, 7), glm::ivec3(7, 3, 2), 
-                                      // glm::ivec3(5, 7, 1), glm::ivec3(1, 3, 7), glm::ivec3(4, 0, 5), glm::ivec3(5, 1, 0), glm::ivec3(4, 6, 0), glm::ivec3(0, 2, 6) };
-  std::vector<glm::ivec3> indices = {glm::ivec3(0, 1, 2), glm::ivec3(2, 3, 1)};
-                   
+                                  Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(1.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0, 1.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 1.0)),
+
+                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(0.0, 1.0)),
+
+                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0, 1.0)),
+
+                                  Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0, 1.0)),
+
+                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 1.0)),
+                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 1.0))};
+
+
+  std::vector<glm::ivec3> vertexIndices = { glm::ivec3(0, 1, 2), glm::ivec3(2, 3, 1), glm::ivec3(4, 5, 6), glm::ivec3(6, 7, 5), glm::ivec3(8, 9, 10), glm::ivec3(10, 3, 9), 
+                                      glm::ivec3(11, 12, 13), glm::ivec3(13, 3, 12), glm::ivec3(4, 14, 15), glm::ivec3(15, 16, 14), glm::ivec3(4, 17, 18), glm::ivec3(18, 19, 17) };
+
   glm::vec3 cubePositions[] = {
         glm::vec3( 0.0f,  0.0f,  0.0f),
         glm::vec3( 2.0f,  5.0f, -15.0f),
@@ -66,15 +83,15 @@ int main(void) {
         glm::vec3(-1.3f,  1.0f, -1.5f)
     };
 
-  Mesh mesh(vertices, indices);
+  Mesh mesh(vertices, vertexIndices);
   glEnable(GL_DEPTH_TEST);
   shader.activate();
   glUniform1i(glGetUniformLocation(shader.getProgram(), "texture1"), 0);
   glUniform1i(glGetUniformLocation(shader.getProgram(), "texture2"), 1);
 
 
-  // Camera camera(glm::vec3(0.0, 0.0, 3.0), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
-  Camera camera;
+  Camera camera(glm::vec3(0.0, 0.0, 3.0), glm::vec3(0.0, 0.0, -1.0), glm::vec3(0.0, 1.0, 0.0));
+  // Camera camera;
   // camera.setCameraPosition(glm::vec3(0.0, 0.0, 3.0)).setCameraFront(glm::vec3(0.0, 0.0, -1.0)).setCameraUp(glm::vec3(0.0, 1.0, 0.0));
   // camera.setCameraPosition(glm::vec3(-3.0, 0.0, 0.0)).setCameraFront(glm::vec3(1, 0, 0));
   while (!window.isClosed()) {
@@ -95,13 +112,17 @@ int main(void) {
     // glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
     // unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
     // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+    float radius = 5.0f;
+    float camX = sin(glfwGetTime()) * radius;
+    float camZ = cos(glfwGetTime()) * radius;
+    camera.setCameraPosition(glm::vec3(camX, 0.0, camZ)).setCameraFront(glm::vec3(0, 0, 0) - glm::vec3(camX, 0.0, camZ));
     
     unsigned int model = glGetUniformLocation(shader.getProgram(), "model");
     glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(projection * camera.getView()));
 
     glm::mat4 transform;
-    transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
-    transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f)); 
+    transform = glm::scale(transform, glm::vec3(1.5, 1.5, 1.5));
+    transform = glm::rotate(transform, (float)glfwGetTime() * 2, glm::vec3(0.5f, 1.0f, 0.0f)); 
     unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 

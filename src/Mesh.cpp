@@ -7,34 +7,37 @@ Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices) {
 
   glGenVertexArrays(1, &vertexArrayObject);
   glGenBuffers(NUM_BUFFERS, vertexBufferObjects);
-  glGenBuffers(NUM_BUFFERS, elementBufferObjects);
+  glGenBuffers(1, &elementBufferObjects);
 
   std::vector<glm::vec3> position;
-  std::vector<glm::vec2> textureCoord;
-
+  std::vector<glm::vec2> texture;
+  std::vector<glm::vec3> normal;
   for(int i = 0; i < vertices.size(); i++) {
     position.push_back(*vertices[i].getPosition());
-    textureCoord.push_back(*vertices[i].getTextureCoord());
+    if (vertices[i].getType() & 2) {
+      texture.push_back(*vertices[i].getTexture());
+    }
+    if (vertices[i].getType() & 4) {
+      normal.push_back(*vertices[i].getNormal());
+    }
   }
 
   glBindVertexArray(vertexArrayObject);
   glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjects[0]);
-  glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(position[0]), &position[0], GL_STATIC_DRAW);
-
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObjects[0]);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, position.size() * sizeof(position[0]), &position[0], GL_STATIC_DRAW);
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
   glEnableVertexAttribArray(0);
 
-  glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjects[1]);
-  glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(textureCoord[0]), &textureCoord[0], GL_STATIC_DRAW);
+  if (texture.size() > 0) {
+    glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObjects[1]);
+    glBufferData(GL_ARRAY_BUFFER, texture.size() * sizeof(texture[0]), &texture[0], GL_STATIC_DRAW);
 
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObjects[1]);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+    glEnableVertexAttribArray(1);
+  }
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObjects);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(indices[0]), &indices[0], GL_STATIC_DRAW);
-  
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
-  glEnableVertexAttribArray(1);
 
   glBindVertexArray(0);
 }

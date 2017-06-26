@@ -17,7 +17,7 @@ private:
   static const int NUM_BUFFERS = 2;
   GLuint vertexArrayObject;
   GLuint vertexBufferObjects[NUM_BUFFERS];
-  GLuint elementBufferObjects[NUM_BUFFERS];
+  GLuint elementBufferObjects;
   unsigned int drawCount;
 };
 
