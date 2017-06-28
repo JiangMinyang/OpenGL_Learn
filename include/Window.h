@@ -13,6 +13,8 @@ public:
   void setAsCurrent();
   void clear(const float &r, const float &g, const float &b, const float &a);
 
+  GLFWwindow* getWindow();
+
 private:
   GLuint WIDTH;
   GLuint HEIGHT;

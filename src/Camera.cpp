@@ -9,7 +9,7 @@ Camera::Camera(const glm::vec3 cameraPosition, const glm::vec3 worldUp, float ya
   this->yaw = yaw;
   this->pitch = pitch;
   this->zoom = DEFAULT_ZOOM;
-  this->speed = DEFAULT_ZOOM;
+  this->speed = DEFAULT_SPEED;
   this->sensitivity = DEFAULT_SENSITIVTY;
   updateVectors();
 }
@@ -34,7 +34,7 @@ void Camera::moveCamera(MOVEMENT_DIRECTION direction, float deltaTime) {
     case FORWARD:
         cameraPosition += cameraFront * distance;
         break;
-    case BACKWORD:
+    case BACKWARD:
         cameraPosition -= cameraFront * distance;
         break;
     case LEFT:

@@ -17,6 +17,10 @@
 const int WIDTH = 800;
 const int HEIGHT = 600;
 
+Camera camera(glm::vec3(0.0, 0.0, 3.0), glm::vec3(0.0, 1.0, 0));
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+
+void processInput(GLFWwindow *window, float deltaTime);
 int main(void) {
   glfwInit();
 
@@ -28,6 +32,8 @@ int main(void) {
 
   Window window(WIDTH, HEIGHT, "OpenGL");
   window.setAsCurrent();
+
+  glfwSetScrollCallback(window.getWindow(), scroll_callback);
 
   glewExperimental = GL_TRUE;
   glewInit();
@@ -90,12 +96,20 @@ int main(void) {
   glUniform1i(glGetUniformLocation(shader.getProgram(), "texture2"), 1);
 
 
-  Camera camera(glm::vec3(0.0, 0.0, 3.0), glm::vec3(0.0, 1.0, 0));
 
   // Camera camera;
   // camera.setCameraPosition(glm::vec3(0.0, 0.0, 3.0)).setCameraFront(glm::vec3(0.0, 0.0, -1.0)).setCameraUp(glm::vec3(0.0, 1.0, 0.0));
   // camera.setCameraPosition(glm::vec3(-3.0, 0.0, 0.0)).setCameraFront(glm::vec3(1, 0, 0));
+
+  float deltaTime = 0.0;
+  float lastFrame = 0.0;
+
   while (!window.isClosed()) {
+    float currentFrame = glfwGetTime();
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+
+    processInput(window.getWindow(), deltaTime);
 
     shader.activate();
 
@@ -146,4 +160,22 @@ int main(void) {
   }
 
   return 0;
+}
+
+void processInput(GLFWwindow *window, float deltaTime) {
+  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+      glfwSetWindowShouldClose(window, true);
+
+  if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+      camera.moveCamera(Camera::MOVEMENT_DIRECTION::FORWARD, deltaTime);
+  if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+      camera.moveCamera(Camera::MOVEMENT_DIRECTION::BACKWARD, deltaTime);
+  if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+      camera.moveCamera(Camera::MOVEMENT_DIRECTION::LEFT, deltaTime);
+  if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+      camera.moveCamera(Camera::MOVEMENT_DIRECTION::RIGHT, deltaTime);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
+  camera.zoomCamera(yoffset);
 }

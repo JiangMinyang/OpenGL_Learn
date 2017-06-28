@@ -9,7 +9,7 @@ class Camera {
 public:
   enum MOVEMENT_DIRECTION {
     FORWARD,
-    BACKWORD,
+    BACKWARD,
     LEFT,
     RIGHT
   };
