@@ -14,7 +14,7 @@ public:
   void bind();
   void unbind();
 private:
-  static const int NUM_BUFFERS = 2;
+  static const int NUM_BUFFERS = 3;
   GLuint vertexArrayObject;
   GLuint vertexBufferObjects[NUM_BUFFERS];
   GLuint elementBufferObjects;

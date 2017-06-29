@@ -38,43 +38,52 @@ int main(void) {
   glewExperimental = GL_TRUE;
   glewInit();
 
-  Shader shader;
-  shader.loadShader("../resource/shader/basicShader.vert", GL_VERTEX_SHADER);
-  shader.loadShader("../resource/shader/basicShader.frag", GL_FRAGMENT_SHADER);
-  shader.linkShader();
+  Shader shader1;
+  shader1.loadShader("../resource/shader/basicShader.vert", GL_VERTEX_SHADER);
+  shader1.loadShader("../resource/shader/basicShader.frag", GL_FRAGMENT_SHADER);
+  shader1.linkShader();
+
+  // Shader lightSource;
+  // lightSource.loadShader("../resource/shader/lampLightSource.vert", GL_VERTEX_SHADER);
+  // lightSource.loadShader("../resource/shader/lampLightSource.frag", GL_FRAGMENT_SHADER);
+  // lightSource.linkShader();
 
   Texture texture("../resource/images/container.jpg", GL_RGB);
   Texture texture2("../resource/images/awesomeface.png", GL_RGBA);
 
-  std::vector<Vertex> vertices = { Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 0.0)),
-                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0, 0.0)),
-                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0, 1.0)),
-                                  Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0)),
+  std::vector<Vertex> vertices = { Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 0.0), glm::vec3(0.0, 0.0, 1.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0, 0.0), glm::vec3(0.0, 0.0, 1.0)), 
+                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(0.0, 1.0), glm::vec3(0.0, 0.0, 1.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0), glm::vec3(0.0, 0.0, 1.0)),
 
-                                  Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
-                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0, 1.0)),
-                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 1.0)),
+                                  Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0), glm::vec3(0.0, 0.0, -1.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(1.0, 0.0), glm::vec3(0.0, 0.0, -1.0)),
+                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0, 1.0), glm::vec3(0.0, 0.0, -1.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 1.0), glm::vec3(0.0, 0.0, -1.0)),
 
-                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0)),
-                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
-                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(0.0, 1.0)),
+                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0), glm::vec3(1.0, 0.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0), glm::vec3(1.0, 0.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(0.0, 1.0), glm::vec3(1.0, 0.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0), glm::vec3(1.0, 0.0, 0.0)),
 
-                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 0.0)),
-                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0, 1.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 0.0), glm::vec3(0.0, 1.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, -0.5f), glm::vec2(1.0, 0.0), glm::vec3(0.0, 1.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(0.0, 1.0), glm::vec3(0.0, 1.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f,  0.5f, 0.5f), glm::vec2(1.0, 1.0), glm::vec3(0.0, 1.0, 0.0)),
 
-                                  Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0)),
-                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0)),
-                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0, 1.0)),
+                                  Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(1.0, 0.0), glm::vec3(-1.0, 0.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, -0.5f), glm::vec2(0.0, 1.0), glm::vec3(-1.0, 0.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0, 1.0), glm::vec3(-1.0, 0.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0), glm::vec3(-1.0, 0.0, 0.0)),
 
-                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0, 0.0)),
-                                  Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 1.0)),
-                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 1.0))};
+                                  Vertex(glm::vec3(0.5f, -0.5f, -0.5f), glm::vec2(1.0, 0.0), glm::vec3(0.0, -1.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 1.0), glm::vec3(0.0, -1.0, 0.0)),
+                                  Vertex(glm::vec3(0.5f, -0.5f, 0.5f), glm::vec2(1.0, 1.0), glm::vec3(0.0, -1.0, 0.0)),
+                                  Vertex(glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec2(0.0, 0.0), glm::vec3(0.0, -1.0, 0.0))};
 
 
-  std::vector<glm::ivec3> vertexIndices = { glm::ivec3(0, 1, 2), glm::ivec3(2, 3, 1), glm::ivec3(4, 5, 6), glm::ivec3(6, 7, 5), glm::ivec3(8, 9, 10), glm::ivec3(10, 3, 9), 
-                                      glm::ivec3(11, 12, 13), glm::ivec3(13, 3, 12), glm::ivec3(4, 14, 15), glm::ivec3(15, 16, 14), glm::ivec3(4, 17, 18), glm::ivec3(18, 19, 17) };
+  std::vector<glm::ivec3> vertexIndices = { glm::ivec3(0, 1, 2), glm::ivec3(2, 3, 1), glm::ivec3(4, 5, 6), glm::ivec3(6, 7, 5), glm::ivec3(8, 9, 10), glm::ivec3(10, 11, 9), 
+                                      glm::ivec3(12, 13, 14), glm::ivec3(14, 15, 13), glm::ivec3(19, 16, 17), glm::ivec3(17, 18, 16), glm::ivec3(23, 20, 21), glm::ivec3(21, 22, 20) };
 
   glm::vec3 cubePositions[] = {
         glm::vec3( 0.0f,  0.0f,  0.0f),
@@ -91,9 +100,9 @@ int main(void) {
 
   Mesh mesh(vertices, vertexIndices);
   glEnable(GL_DEPTH_TEST);
-  shader.activate();
-  glUniform1i(glGetUniformLocation(shader.getProgram(), "texture1"), 0);
-  glUniform1i(glGetUniformLocation(shader.getProgram(), "texture2"), 1);
+  shader1.activate();
+  glUniform1i(glGetUniformLocation(shader1.getProgram(), "texture1"), 0);
+  glUniform1i(glGetUniformLocation(shader1.getProgram(), "texture2"), 1);
 
 
 
@@ -111,9 +120,10 @@ int main(void) {
 
     processInput(window.getWindow(), deltaTime);
 
-    shader.activate();
+    shader1.activate();
+    // lightSource.activate();
 
-    window.clear(0.2f, 0.3f, 0.4f, 1.0f);
+    window.clear(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     texture.bind(0);
     texture2.bind(1);
@@ -128,13 +138,13 @@ int main(void) {
     // unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
     // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     
-    unsigned int model = glGetUniformLocation(shader.getProgram(), "model");
+    unsigned int model = glGetUniformLocation(shader1.getProgram(), "model");
     glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(projection * camera.getView()));
 
     glm::mat4 transform;
-    transform = glm::scale(transform, glm::vec3(1.5, 1.5, 1.5));
+    transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
     transform = glm::rotate(transform, (float)glfwGetTime() * 2, glm::vec3(0.5f, 1.0f, 0.0f)); 
-    unsigned int transformLoc = glGetUniformLocation(shader.getProgram(), "transform");
+    unsigned int transformLoc = glGetUniformLocation(shader1.getProgram(), "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 
     // mesh.draw();
