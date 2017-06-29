@@ -17,7 +17,7 @@
 const int WIDTH = 800;
 const int HEIGHT = 600;
 
-Camera camera(glm::vec3(0.0, 0.0, 3.0), glm::vec3(0.0, 1.0, 0));
+Camera camera(glm::vec3(0.0, 2.0, 10.0), glm::vec3(0.0, 1.0, 0));
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 void processInput(GLFWwindow *window, float deltaTime);
@@ -85,7 +85,7 @@ int main(void) {
   std::vector<glm::ivec3> vertexIndices = { glm::ivec3(0, 1, 2), glm::ivec3(2, 3, 1), glm::ivec3(4, 5, 6), glm::ivec3(6, 7, 5), glm::ivec3(8, 9, 10), glm::ivec3(10, 11, 9), 
                                       glm::ivec3(12, 13, 14), glm::ivec3(14, 15, 13), glm::ivec3(19, 16, 17), glm::ivec3(17, 18, 16), glm::ivec3(23, 20, 21), glm::ivec3(21, 22, 20) };
 
-  glm::vec3 lightSourceLocation = glm::vec3(-5.0, 0.0, 0.0);
+  glm::vec3 lightSourceLocation = glm::vec3(-3.0, 3.0, 3.0);
 
   Mesh mesh(vertices, vertexIndices);
   glEnable(GL_DEPTH_TEST);
@@ -108,13 +108,16 @@ int main(void) {
     glm::mat4 perspectiven;
     perspectiven = glm::perspective(glm::radians(camera.getZoom()), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
     
+    glm::mat4 cameraRotate = camera.getView();
+    cameraRotate = glm::rotate(cameraRotate, (float)glfwGetTime(), glm::vec3(0.0, 1.0f, 0.0f));
     unsigned int model = glGetUniformLocation(shader1.getProgram(), "model");
-    glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(perspectiven * camera.getView()));
+    // glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(perspectiven * camera.getView()));
+    glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(perspectiven * cameraRotate));
 
     glm::mat4 transform;
-    transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
+    transform = glm::scale(transform, glm::vec3(3, 3, 3));
     glm::mat4 rotation;
-    rotation = glm::rotate(rotation, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f)); 
+    rotation = glm::rotate(rotation, (float)glfwGetTime() * 0.1f, glm::vec3(1.0, 1.0f, 0.0f)); 
     transform = transform * rotation;
     unsigned int transformLoc = glGetUniformLocation(shader1.getProgram(), "transform");
     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
@@ -131,10 +134,11 @@ int main(void) {
 
     lightSource.activate();
     glm::mat4 lightTransform;
-    lightTransform = glm::scale(lightTransform, glm::vec3(0.2, 0.2, 0.2));
     lightTransform = glm::translate(lightTransform, lightSourceLocation);
+    lightTransform = glm::scale(lightTransform, glm::vec3(0.2, 0.2, 0.2));
     unsigned int lightModel = glGetUniformLocation(lightSource.getProgram(), "model");
-    glUniformMatrix4fv(lightModel, 1, GL_FALSE, glm::value_ptr(perspectiven * camera.getView()));
+    // glUniformMatrix4fv(lightModel, 1, GL_FALSE, glm::value_ptr(perspectiven * camera.getView()));
+    glUniformMatrix4fv(lightModel, 1, GL_FALSE, glm::value_ptr(perspectiven * cameraRotate));
     unsigned int lightTransformLoc = glGetUniformLocation(lightSource.getProgram(), "transform");
     glUniformMatrix4fv(lightTransformLoc, 1, GL_FALSE, glm::value_ptr(lightTransform));
 
