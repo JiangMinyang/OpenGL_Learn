@@ -21,6 +21,7 @@ public:
 
   Camera(const glm::vec3 cameraPosition = glm::vec3(0.0, 0.0, 0.0), const glm::vec3 worldUp = glm::vec3(0.0, 1.0, 0.0), float yaw = DEFAULT_YAW, float pitch = DEFAULT_PITCH);
   glm::mat4 getView();
+  glm::vec3 getPosition();
   float getZoom();
   Camera& setCameraPosition(const glm::vec3 &cameraPosition);
   void moveCamera(MOVEMENT_DIRECTION direction, float deltaTime);
