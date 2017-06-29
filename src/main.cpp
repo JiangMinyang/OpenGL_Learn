@@ -123,6 +123,8 @@ int main(void) {
     glUniformMatrix4fv(rotationLoc, 1, GL_FALSE, glm::value_ptr(rotation));
     int lightSourceLoc = glGetUniformLocation(shader1.getProgram(), "lightSource");
     glUniform3fv(lightSourceLoc, 1, glm::value_ptr(lightSourceLocation));
+    int cameraLoc = glGetUniformLocation(shader1.getProgram(), "viewPosition");
+    glUniform3fv(cameraLoc, 1, glm::value_ptr(camera.getPosition()));
 
     mesh.bind();
     mesh.draw();
