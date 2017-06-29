@@ -15,7 +15,7 @@ Camera::Camera(const glm::vec3 cameraPosition, const glm::vec3 worldUp, float ya
 }
 
 glm::mat4 Camera::getView() {
-  std::cout << glm::to_string(glm::lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp)) << std::endl;
+  // std::cout << glm::to_string(glm::lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp)) << std::endl;
   return glm::lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
 }
 

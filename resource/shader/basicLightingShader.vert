@@ -9,8 +9,10 @@ uniform mat4 model;
 
 out vec3 normalVec;
 out vec3 lightVec;
+
 void main() {
   normalVec = (rotation * vec4(normal, 0.0)).xyz;
-  lightVec = position - lightSource;
+  // lightVec = position - lightSource;
+  lightVec = lightSource - position;
   gl_Position = model * transform * vec4(position, 1.0);
 }
