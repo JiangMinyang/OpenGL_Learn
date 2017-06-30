@@ -138,8 +138,9 @@ int main(void) {
     // unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
     // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     
-    unsigned int model = glGetUniformLocation(shader1.getProgram(), "model");
-    glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(projection * camera.getView()));
+    // unsigned int model = glGetUniformLocation(shader1.getProgram(), "model");
+    // glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(projection * camera.getView()));
+    shader1.setMatrix("model", projection * camera.getView());
 
     glm::mat4 transform;
     transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));

@@ -1,6 +1,7 @@
 #include "Shader.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "glm/gtc/type_ptr.hpp"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -90,4 +91,19 @@ void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const 
     }
     std::cerr << errorMessage << ": " << error << std::endl;
   }
+}
+
+void Shader::setIntVector(const char* name, const glm::ivec3 &value) {
+  GLuint location = glGetUniformLocation(program, name);
+  glUniform3iv(location, 1, glm::value_ptr(value));
+}
+
+void Shader::setFloatVector(const char* name, const glm::vec3 &value) {
+  GLuint location = glGetUniformLocation(program, name);
+  glUniform3fv(location, 1, glm::value_ptr(value));
+}
+
+void Shader::setMatrix(const char* name, const glm::mat4 &value) {
+  GLuint location = glGetUniformLocation(program, name);
+  glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }

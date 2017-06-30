@@ -4,6 +4,7 @@
 #include <string>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "glm/glm.hpp"
 
 class Shader {
 public:
@@ -13,6 +14,9 @@ public:
   void linkShader();
   void activate();
   GLuint getProgram();
+  void setIntVector(const char* name, const glm::ivec3 &value);
+  void setFloatVector(const char* name, const glm::vec3 &value);
+  void setMatrix(const char* name, const glm::mat4 &value);
 
 private:
   static const unsigned int NUM_SHADERS = 2;
