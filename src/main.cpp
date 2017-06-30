@@ -101,8 +101,8 @@ int main(void) {
   Mesh mesh(vertices, vertexIndices);
   glEnable(GL_DEPTH_TEST);
   shader1.activate();
-  glUniform1i(glGetUniformLocation(shader1.getProgram(), "texture1"), 0);
-  glUniform1i(glGetUniformLocation(shader1.getProgram(), "texture2"), 1);
+  shader1.setInt("texture1", 0);
+  shader1.setInt("texture2", 1);
 
 
 
@@ -138,15 +138,12 @@ int main(void) {
     // unsigned int viewLoc = glGetUniformLocation(shader.getProgram(), "view");
     // glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
     
-    // unsigned int model = glGetUniformLocation(shader1.getProgram(), "model");
-    // glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(projection * camera.getView()));
     shader1.setMatrix("model", projection * camera.getView());
 
     glm::mat4 transform;
     transform = glm::scale(transform, glm::vec3(0.5, 0.5, 0.5));
     transform = glm::rotate(transform, (float)glfwGetTime() * 2, glm::vec3(0.5f, 1.0f, 0.0f)); 
-    unsigned int transformLoc = glGetUniformLocation(shader1.getProgram(), "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+    shader1.setMatrix("transform", transform);
 
     // mesh.draw();
     mesh.bind();

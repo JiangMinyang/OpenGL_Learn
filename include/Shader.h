@@ -14,6 +14,8 @@ public:
   void linkShader();
   void activate();
   GLuint getProgram();
+  void setInt(const char* name, const int &value);
+  void setFloat(const char* name, const float &value);
   void setIntVector(const char* name, const glm::ivec3 &value);
   void setFloatVector(const char* name, const glm::vec3 &value);
   void setMatrix(const char* name, const glm::mat4 &value);

@@ -107,3 +107,12 @@ void Shader::setMatrix(const char* name, const glm::mat4 &value) {
   GLuint location = glGetUniformLocation(program, name);
   glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
+
+void Shader::setInt(const char* name, const int &value) {
+  GLuint location = glGetUniformLocation(program, name); 
+  glUniform1i(location, value);
+}
+void Shader::setFloat(const char* name, const float &value) {
+  GLuint location = glGetUniformLocation(program, name); 
+  glUniform1f(location, value);
+}
