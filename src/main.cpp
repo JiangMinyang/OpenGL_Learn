@@ -13,6 +13,7 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "Camera.h"
+#include "ObjFileLoader.h"
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
