@@ -11,7 +11,9 @@ public:
     FORWARD,
     BACKWARD,
     LEFT,
-    RIGHT
+    RIGHT,
+    UP,
+    DOWN
   };
   static constexpr float DEFAULT_YAW = -90;
   static constexpr float DEFAULT_PITCH = 0;

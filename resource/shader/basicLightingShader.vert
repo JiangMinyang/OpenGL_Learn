@@ -14,7 +14,7 @@ out vec3 viewVec;
 
 void main() {
   normalVec = (rotation * vec4(normal, 0.0)).xyz;
-  lightVec = lightSource - position;
+  lightVec = lightSource;
   viewVec = viewPosition - position;
   gl_Position = model * transform * vec4(position, 1.0);
 }

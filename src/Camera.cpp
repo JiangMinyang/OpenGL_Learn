@@ -47,6 +47,11 @@ void Camera::moveCamera(MOVEMENT_DIRECTION direction, float deltaTime) {
     case RIGHT:
         cameraPosition += cameraRight * distance;
         break;
+    case UP:
+        cameraPosition += cameraUp * distance;
+        break;
+    case DOWN:
+        cameraPosition -= cameraUp * distance;
   }
 }
 

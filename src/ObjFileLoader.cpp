@@ -1,17 +1,20 @@
 #include "ObjFileLoader.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <fstream>
 #include <sstream>
 #include <unordered_map>
-
 #include <iostream>
-using namespace std;
 
 int ObjFileLoader::loadFile(const char* filename, std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices) {
   std::fstream fs;
   fs.open(filename);
   if (!fs.is_open()) {
+    std::cerr << "cannot load " << filename << std::endl;
     return -1;
   }
+  std::cout << "start loading obj file..." << std::endl;
+  float startTime = glfwGetTime();
   std::string line;
   std::unordered_map<std::string, int> vertexMap;
   std::vector<glm::vec3> tempVertex;
@@ -53,14 +56,15 @@ int ObjFileLoader::loadFile(const char* filename, std::vector<Vertex> &vertices,
           vertexMap[vertexStr] = vertices.size();
           faceIndices[i] = vertices.size();
           if (vertexStr.find("/") == std::string::npos) {
-            vertices.push_back(Vertex(tempVertex.at(stoi(vertexStr))));
+            vertexIndex = (tempVertex.size() + stoi(vertexStr)) % tempVertex.size();
+            vertices.push_back(Vertex(tempVertex.at(vertexIndex)));
             continue;
           }
           int firstSlash = vertexStr.find("/");
           int lastSlash = vertexStr.rfind("/");
           if (firstSlash + 1 == lastSlash) {
-            vertexIndex = stoi(vertexStr.substr(0, firstSlash));
-            vertexNormalIndex = stoi(vertexStr.substr(lastSlash + 1, vertexStr.size() - lastSlash - 1));
+            vertexIndex = (tempVertex.size() + stoi(vertexStr.substr(0, firstSlash))) % tempVertex.size();
+            vertexNormalIndex = (tempNormal.size() + stoi(vertexStr.substr(lastSlash + 1, vertexStr.size() - lastSlash - 1))) % tempNormal.size();
             vertices.push_back(Vertex(tempVertex.at(vertexIndex), tempNormal.at(vertexNormalIndex)));
             continue;
           }
@@ -79,7 +83,7 @@ int ObjFileLoader::loadFile(const char* filename, std::vector<Vertex> &vertices,
       indices.push_back(glm::ivec3(faceIndices[0], faceIndices[1], faceIndices[2]));
     }
   }
-
+  std::cout << "finish loading obj file, took " << glfwGetTime() - startTime << " seconds." << std::endl;
   fs.close();
   return 0;
 }
