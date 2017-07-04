@@ -11,6 +11,6 @@ void main() {
   vec3 specularFactor = vec3(0.628281, 0.555802, 0.366065);
   float shininess = 0.4;
   float diffuse = max(dot(normalize(normalVec), normalize(lightVec)), 0.0);
-  float specular = pow(max(dot(normalize(viewVec), normalize(reflect(-lightVec, normalVec))), 0.0), 0.6 * 128);
+  float specular = pow(max(dot(normalize(viewVec), normalize(reflect(-lightVec, normalVec))), 0.0), shininess * 128);
   FragColor = vec4((ambientFactor + diffuse * diffuseFactor + specular * specularFactor), 1.0) * vec4(1.0, 1.0, 1.0, 1.0);
 }
