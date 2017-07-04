@@ -1,7 +1,4 @@
 #include "Camera.h"
-#define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/string_cast.hpp"
-#include <iostream>
 
 Camera::Camera(const glm::vec3 cameraPosition, const glm::vec3 worldUp, float yaw, float pitch) {
   this->cameraPosition = cameraPosition;
@@ -36,22 +33,22 @@ void Camera::moveCamera(MOVEMENT_DIRECTION direction, float deltaTime) {
   float distance = deltaTime * speed;
   switch (direction) {
     case FORWARD:
-        cameraPosition += cameraFront * distance;
-        break;
+      cameraPosition += cameraFront * distance;
+      break;
     case BACKWARD:
-        cameraPosition -= cameraFront * distance;
-        break;
+      cameraPosition -= cameraFront * distance;
+      break;
     case LEFT:
-        cameraPosition -= cameraRight * distance;
-        break;
+      cameraPosition -= cameraRight * distance;
+      break;
     case RIGHT:
-        cameraPosition += cameraRight * distance;
-        break;
+      cameraPosition += cameraRight * distance;
+      break;
     case UP:
-        cameraPosition += cameraUp * distance;
-        break;
+      cameraPosition += cameraUp * distance;
+      break;
     case DOWN:
-        cameraPosition -= cameraUp * distance;
+      cameraPosition -= cameraUp * distance;
   }
 }
 
@@ -85,6 +82,4 @@ void Camera::updateVectors() {
   cameraFront = glm::normalize(front);
   cameraRight = glm::normalize(glm::cross(cameraFront, worldUp));
   cameraUp = glm::normalize(glm::cross(cameraRight, cameraFront));
-
-  std::cout << glm::to_string(cameraRight) << std::endl;
 }

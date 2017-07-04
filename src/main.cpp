@@ -31,6 +31,8 @@ int main(void) {
   glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
+//   glfwWindowHint(GLFW_SAMPLES, 4);
+
   Window window(WIDTH, HEIGHT, "OpenGL");
   window.setAsCurrent();
 
@@ -39,15 +41,19 @@ int main(void) {
   glewExperimental = GL_TRUE;
   glewInit();
 
-  Shader shader1;
-  shader1.loadShader("../resource/shader/basicLightingShader.vert", GL_VERTEX_SHADER);
-  shader1.loadShader("../resource/shader/basicLightingShader.frag", GL_FRAGMENT_SHADER);
-  shader1.linkShader();
+  Shader shader;
+  shader.loadShader("../resource/shader/basicLightingShader.vert", GL_VERTEX_SHADER);
+  shader.loadShader("../resource/shader/basicLightingShader.frag", GL_FRAGMENT_SHADER);
+  shader.linkShader();
 
-  Shader lightSource;
-  lightSource.loadShader("../resource/shader/lampLightSource.vert", GL_VERTEX_SHADER);
-  lightSource.loadShader("../resource/shader/lampLightSource.frag", GL_FRAGMENT_SHADER);
-  lightSource.linkShader();
+//   glEnable(GL_MULTISAMPLE);
+  glEnable(GL_DEPTH_TEST);
+
+
+//   Shader lightSource;
+//   lightSource.loadShader("../resource/shader/lampLightSource.vert", GL_VERTEX_SHADER);
+//   lightSource.loadShader("../resource/shader/lampLightSource.frag", GL_FRAGMENT_SHADER);
+//   lightSource.linkShader();
 
   Texture texture("../resource/images/container.jpg", GL_RGB);
   Texture texture2("../resource/images/awesomeface.png", GL_RGBA);
@@ -88,13 +94,13 @@ int main(void) {
   vertices.clear();
   vertexIndices.clear();
   float start = glfwGetTime();
-  ObjFileLoader::loadFile("/Users/Minyang/Documents/workspace/OpenGL_Learn/resource/objs/buddha.obj", vertices, vertexIndices);
+  ObjFileLoader::loadFile("/Users/Minyang/Documents/workspace/OpenGL_Learn/resource/objs/teapotWithNorm.obj", vertices, vertexIndices);
+//   ObjFileLoader::loadFile("/Users/Minyang/Documents/workspace/OpenGL_Learn/resource/objs/teapotWithNorm.obj", vertices, vertexIndices);
 
   glm::vec3 lightSourceLocation = glm::vec3(-3.0, 3.0, 3.0);
   glm::vec3 lightSourceDirection = glm::vec3(1.0, 1.0, 1.0);
 
   Mesh mesh(vertices, vertexIndices);
-  glEnable(GL_DEPTH_TEST);
 
   float deltaTime = 0.0;
   float lastFrame = 0.0;
@@ -106,51 +112,32 @@ int main(void) {
 
     processInput(window.getWindow(), deltaTime);
 
-    shader1.activate();
+    shader.activate();
 
     window.clear(0.2f, 0.3f, 0.4f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glm::mat4 perspectiven;
-    perspectiven = glm::perspective(glm::radians(camera.getZoom()), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
+    glm::mat4 perspective;
+    perspective = glm::perspective(glm::radians(camera.getZoom()), (float)WIDTH / (float)HEIGHT, 0.1f, 100.0f);
     
     glm::mat4 cameraRotate = camera.getView();
     // cameraRotate = glm::rotate(cameraRotate, (float)glfwGetTime(), glm::vec3(0.0, 1.0f, 0.0f));
-    unsigned int model = glGetUniformLocation(shader1.getProgram(), "model");
-    // glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(perspectiven * camera.getView()));
-    glUniformMatrix4fv(model, 1, GL_FALSE, glm::value_ptr(perspectiven * cameraRotate));
 
     glm::mat4 transform;
     transform = glm::scale(transform, glm::vec3(3, 3, 3));
     glm::mat4 rotation;
     rotation = glm::rotate(rotation, (float)glfwGetTime(), glm::vec3(0.0, 1.0f, 0.0f)); 
     transform = transform * rotation;
-    unsigned int transformLoc = glGetUniformLocation(shader1.getProgram(), "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-    unsigned int rotationLoc = glGetUniformLocation(shader1.getProgram(), "rotation");
-    glUniformMatrix4fv(rotationLoc, 1, GL_FALSE, glm::value_ptr(rotation));
-    int lightSourceLoc = glGetUniformLocation(shader1.getProgram(), "lightSource");
-    glUniform3fv(lightSourceLoc, 1, glm::value_ptr(lightSourceDirection));
-    int cameraLoc = glGetUniformLocation(shader1.getProgram(), "viewPosition");
-    glUniform3fv(cameraLoc, 1, glm::value_ptr(camera.getPosition()));
+
+    shader.setMatrix("transform", transform);
+    shader.setMatrix("rotation", rotation);
+    shader.setMatrix("model", perspective * cameraRotate);
+    shader.setFloatVector("lightSource", lightSourceDirection);
+    shader.setFloatVector("viewPosition", camera.getPosition());
 
     mesh.bind();
     mesh.draw();
     mesh.unbind();
-
-    // lightSource.activate();
-    // glm::mat4 lightTransform;
-    // lightTransform = glm::translate(lightTransform, lightSourceLocation);
-    // lightTransform = glm::scale(lightTransform, glm::vec3(0.2, 0.2, 0.2));
-    // unsigned int lightModel = glGetUniformLocation(lightSource.getProgram(), "model");
-    // // glUniformMatrix4fv(lightModel, 1, GL_FALSE, glm::value_ptr(perspectiven * camera.getView()));
-    // glUniformMatrix4fv(lightModel, 1, GL_FALSE, glm::value_ptr(perspectiven * cameraRotate));
-    // unsigned int lightTransformLoc = glGetUniformLocation(lightSource.getProgram(), "transform");
-    // glUniformMatrix4fv(lightTransformLoc, 1, GL_FALSE, glm::value_ptr(lightTransform));
-
-    // mesh.bind();
-    // mesh.draw();
-    // mesh.unbind();
 
     window.update();
   }
