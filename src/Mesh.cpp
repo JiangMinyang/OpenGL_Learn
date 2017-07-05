@@ -2,7 +2,13 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
+Mesh::Mesh(const std::string& name) : name(name) {}
+
 Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices) {
+  setup(vertices, indices);
+}
+
+void Mesh::setup(std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices) {
   drawCount = indices.size() * 3;
 
   glGenVertexArrays(1, &vertexArrayObject);
@@ -50,6 +56,25 @@ Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices) {
 
   glBindVertexArray(0);
 }
+
+std::string Mesh::getName() {
+  return name;
+}
+
+std::string Mesh::getMaterialName() {
+  return materialName;
+}
+
+Mesh& Mesh::setName(const std::string &name) {
+  this->name = name;
+  return *this;
+}
+
+Mesh& Mesh::setMaterialName(const std::string &materialName) {
+  this->materialName = materialName;
+  return *this;
+}
+
 Mesh::~Mesh() {
   glDeleteVertexArrays(1, &vertexArrayObject);
 }
