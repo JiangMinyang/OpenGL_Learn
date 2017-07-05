@@ -8,7 +8,7 @@
 
 class ObjFileLoader {
 public:
-  static int loadFile(const std::string& filename, std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices);
+  static int loadFile(const std::string& filename, Model &model);
 };
 
 #endif  //  OBJ_FILE_LOADER_H
