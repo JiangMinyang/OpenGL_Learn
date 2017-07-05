@@ -18,3 +18,8 @@ include_directories(${PROJECT_SOURCE_DIR}/lib)
 add_definitions(-DRESOURCE_PATH="${PROJECT_SOURCE_DIR}/resource")
 
 add_subdirectory(src)
+
+add_custom_target(run 
+  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/
+  COMMAND OpenGL
+)
