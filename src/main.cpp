@@ -14,6 +14,7 @@
 #include "Texture.h"
 #include "Camera.h"
 #include "ObjFileLoader.h"
+#include "ResourceUtils.h"
 
 const int WIDTH = 800;
 const int HEIGHT = 600;
@@ -42,8 +43,8 @@ int main(void) {
   glewInit();
 
   Shader shader;
-  shader.loadShader("../resource/shader/basicLightingShader.vert", GL_VERTEX_SHADER);
-  shader.loadShader("../resource/shader/basicLightingShader.frag", GL_FRAGMENT_SHADER);
+  shader.loadShader(ResourceUtils::getResourcePath("basicLightingShader.vert"), GL_VERTEX_SHADER);
+  shader.loadShader(ResourceUtils::getResourcePath("basicLightingShader.frag"), GL_FRAGMENT_SHADER);
   shader.linkShader();
 
 //   glEnable(GL_MULTISAMPLE);
@@ -55,8 +56,8 @@ int main(void) {
 //   lightSource.loadShader("../resource/shader/lampLightSource.frag", GL_FRAGMENT_SHADER);
 //   lightSource.linkShader();
 
-  Texture texture("../resource/images/container.jpg", GL_RGB);
-  Texture texture2("../resource/images/awesomeface.png", GL_RGBA);
+  // Texture texture("../resource/images/container.jpg", GL_RGB);
+  // Texture texture2("../resource/images/awesomeface.png", GL_RGBA);
 
   std::vector<Vertex> vertices = { Vertex(glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec2(0.0, 0.0), glm::vec3(0.0, 0.0, 1.0)),
                                   Vertex(glm::vec3(-0.5f, 0.5f, 0.5f), glm::vec2(1.0, 0.0), glm::vec3(0.0, 0.0, 1.0)), 
@@ -94,8 +95,8 @@ int main(void) {
   vertices.clear();
   vertexIndices.clear();
   float start = glfwGetTime();
-  // ObjFileLoader::loadFile("/home/minyangjiang-laptop/Downloads/dragon.obj", vertices, vertexIndices);
-  ObjFileLoader::loadFile("../resource/objs/teapotWithNorm.obj", vertices, vertexIndices);
+  // ObjFileLoader::loadFile("/Users/Minyang/Downloads/dragon.obj", vertices, vertexIndices);
+  ObjFileLoader::loadFile(ResourceUtils::getResourcePath("teapotWithNorm.obj"), vertices, vertexIndices);
 
   glm::vec3 lightSourceLocation = glm::vec3(-3.0, 3.0, 3.0);
   glm::vec3 lightSourceDirection = glm::vec3(1.0, 1.0, 1.0);

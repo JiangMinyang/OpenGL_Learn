@@ -15,6 +15,6 @@ set(TARGET OpenGL)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 include_directories(${PROJECT_SOURCE_DIR}/lib)
 
-add_definitions(-DRESOURCE_DIRECTORY="${PROJECT_SOURCE_DIR}/resources")
+add_definitions(-DRESOURCE_PATH="${PROJECT_SOURCE_DIR}/resource")
 
 add_subdirectory(src)

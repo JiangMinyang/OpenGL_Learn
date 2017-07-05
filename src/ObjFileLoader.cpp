@@ -6,9 +6,9 @@
 #include <unordered_map>
 #include <iostream>
 
-int ObjFileLoader::loadFile(const char* filename, std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices) {
+int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices) {
   std::fstream fs;
-  fs.open(filename);
+  fs.open(filename.c_str());
   if (!fs.is_open()) {
     std::cerr << "cannot load " << filename << std::endl;
     return -1;
