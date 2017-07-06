@@ -13,9 +13,11 @@ public:
   Model();
   void draw();
   void addMesh(const Mesh &mesh);
+  void setupMesh(const std::string &meshName, std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices);
+  void setMaterial(const std::string &meshName, const std::string &materialName);
 private:
-  std::sring modelName;
-  std::vector<Mesh> meshes;
+  std::string modelName;
+  std::map<std::string, Mesh> meshes;
   std::vector<Texture> textures;
   std::map<std::string, Material> materials;
 };

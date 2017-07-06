@@ -96,7 +96,8 @@ int main(void) {
   vertexIndices.clear();
   float start = glfwGetTime();
   // ObjFileLoader::loadFile("/Users/Minyang/Downloads/dragon.obj", vertices, vertexIndices);
-  ObjFileLoader::loadFile(ResourceUtils::getResourcePath("teapotWithNorm.obj"), vertices, vertexIndices);
+  Model model;
+  ObjFileLoader::loadFile(ResourceUtils::getResourcePath("teapotWithNorm.obj"), model);
 
   glm::vec3 lightSourceLocation = glm::vec3(-3.0, 3.0, 3.0);
   glm::vec3 lightSourceDirection = glm::vec3(1.0, 1.0, 1.0);

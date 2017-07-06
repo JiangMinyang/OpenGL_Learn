@@ -16,7 +16,7 @@ int ObjFileLoader::loadFile(const std::string& filename, Model &model) {
   std::cout << "start loading obj file..." << std::endl;
   float startTime = glfwGetTime();
   std::string materialFile = "";
-  std::string materialName = "";
+  std::string objectName = "";
   std::string line;
   std::unordered_map<std::string, int> vertexMap;
   std::vector<glm::vec3> tempVertex;
@@ -27,7 +27,7 @@ int ObjFileLoader::loadFile(const std::string& filename, Model &model) {
   tempTexture.push_back(glm::vec2(0, 0));
 
   std::vector<Vertex> vertices;
-  std::vector<glm::vec3> indices;
+  std::vector<glm::ivec3> indices;
 
   while (getline(fs, line)) {
     if (line.size() == 0) {
@@ -92,13 +92,27 @@ int ObjFileLoader::loadFile(const std::string& filename, Model &model) {
       indices.push_back(glm::ivec3(faceIndices[0], faceIndices[1], faceIndices[2]));
       continue;
     }
-    if (type == "mtllib") {
-      ss >> materialFile;
+    if (type == "o") {
+      if (vertices.size() > 0) {
+        model.setupMesh(objectName, vertices, indices);
+      }
+      ss >> objectName;
+      model.addMesh(Mesh(objectName)); 
       continue;
     }
+
     if (type == "usemtl") {
+      std::string materialName;
       ss >> materialName;
+      model.setMaterial(objectName, materialName);
+      continue;
     }
+    if (type == "mtllib") {
+      ss >> materialFile;
+    }
+  }
+  if (vertices.size() > 0) {
+    model.setupMesh(objectName, vertices, indices);
   }
   std::cout << "finish loading obj file, took " << glfwGetTime() - startTime << " seconds." << std::endl;
   fs.close();

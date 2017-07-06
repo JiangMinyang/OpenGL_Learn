@@ -4,9 +4,6 @@
 const std::string ResourceUtils::RESOURCE_DIRECTORY = std::string(RESOURCE_PATH);
 
 std::string ResourceUtils::getResourcePath(const std::string& filename) {
-  if (filename.find("/") != std::string::npos) {
-    return filename;
-  }
   std::string resultPath = RESOURCE_DIRECTORY + getResourceType(filename) + "/" + filename;
   return resultPath;
 }
