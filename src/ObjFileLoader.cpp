@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <iostream>
 
-int ObjFileLoader::loadFile(const std::string& filename, Model &model) {
+int ObjFileLoader::loadObjectFile(const std::string& filename, Model &model) {
   std::fstream fs;
   fs.open(filename.c_str());
   if (!fs.is_open()) {
@@ -115,6 +115,46 @@ int ObjFileLoader::loadFile(const std::string& filename, Model &model) {
     model.setupMesh(objectName, vertices, indices);
   }
   std::cout << "finish loading obj file, took " << glfwGetTime() - startTime << " seconds." << std::endl;
+  fs.close();
+  if (materialFile != "") {
+    loadMaterialFile(filename.substr(0, filename.rfind("/") + 1) + materialFile, model);
+  }
+  return 0;
+}
+
+int ObjFileLoader::loadMaterialFile(const std::string& filename, Model &model) {
+  std::fstream fs;
+  fs.open(filename.c_str());
+  if (!fs.is_open()) {
+    std::cerr << "cannot load " << filename << std::endl;
+    return -1;
+  }
+  std::cout << "start loading mtl file..." << std::endl;
+  float startTime = glfwGetTime();
+  std::string line;
+  Material material("");
+
+  while (getline(fs, line)) {
+    if (line.size() == 0) {
+      continue;
+    }
+    std::stringstream ss;
+    std::string type;
+    float x, y, z;
+    ss.str(line);
+    ss >> type;
+    if (type == "newmtl") {
+      if (material.getName() != "") {
+        model.addMaterial(material);
+      }
+      std::string materialName;
+      material = Material(materialName);
+      continue;
+    }
+  }
+
+
+  std::cout << "finish loading mtl file, took " << glfwGetTime() - startTime << " seconds." << std::endl;
   fs.close();
   return 0;
 }

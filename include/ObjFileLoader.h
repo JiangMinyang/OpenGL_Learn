@@ -9,7 +9,8 @@
 
 class ObjFileLoader {
 public:
-  static int loadFile(const std::string& filename, Model &model);
+  static int loadObjectFile(const std::string& filename, Model &model);
+  static int loadMaterialFile(const std::string& filename, Model &model);
 };
 
 #endif  //  OBJ_FILE_LOADER_H

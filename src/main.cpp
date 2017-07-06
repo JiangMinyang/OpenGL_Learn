@@ -97,7 +97,7 @@ int main(void) {
   float start = glfwGetTime();
   // ObjFileLoader::loadFile("/Users/Minyang/Downloads/dragon.obj", vertices, vertexIndices);
   Model model;
-  ObjFileLoader::loadFile(ResourceUtils::getResourcePath("teapotWithNorm.obj"), model);
+  ObjFileLoader::loadObjectFile(ResourceUtils::getResourcePath("teapotWithNorm.obj"), model);
 
   glm::vec3 lightSourceLocation = glm::vec3(-3.0, 3.0, 3.0);
   glm::vec3 lightSourceDirection = glm::vec3(1.0, 1.0, 1.0);
@@ -137,9 +137,10 @@ int main(void) {
     shader.setFloatVector("lightSource", lightSourceDirection);
     shader.setFloatVector("viewPosition", camera.getPosition());
 
-    mesh.bind();
-    mesh.draw();
-    mesh.unbind();
+    // mesh.bind();
+    // mesh.draw();
+    // mesh.unbind();
+    model.draw();
 
     window.update();
   }

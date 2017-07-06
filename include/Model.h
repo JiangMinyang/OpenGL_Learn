@@ -13,6 +13,7 @@ public:
   Model();
   void draw();
   void addMesh(const Mesh &mesh);
+  void addMaterial(const Material &material);
   void setupMesh(const std::string &meshName, std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices);
   void setMaterial(const std::string &meshName, const std::string &materialName);
 private:

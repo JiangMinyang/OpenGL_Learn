@@ -4,17 +4,18 @@
 #include <string>
 class Material {
 public:
-  Material(std::string name);
+  Material();
+  Material(const std::string &name);
   Material(const std::string &name, const glm::vec3 &ambient, const glm::vec3 &diffuse, const glm::vec3 &specular);
-  std::string getName();
-  float getShininess();
-  float getDissolve();
-  float getOpticalDensity();
-  glm::vec3 getAmbient();
-  glm::vec3 getDiffuse();
-  glm::vec3 getSpecular();
-  glm::vec3 getEmissive();
-  int getIllumination();
+  std::string getName() const;
+  float getShininess() const;
+  float getDissolve() const;
+  float getOpticalDensity() const;
+  glm::vec3 getAmbient() const;
+  glm::vec3 getDiffuse() const;
+  glm::vec3 getSpecular() const;
+  glm::vec3 getEmissive() const;
+  int getIllumination() const;
   Material& setName(const std::string &name);
   Material& setShininess(const float shininess);
   Material& setDissolve(const float dissolve);
