@@ -12,6 +12,7 @@ class Model {
 public:
   Model();
   void draw();
+  void addMesh(const Mesh &mesh);
 private:
   std::sring modelName;
   std::vector<Mesh> meshes;

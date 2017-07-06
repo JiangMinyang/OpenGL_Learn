@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <iostream>
 
-int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices) {
+int ObjFileLoader::loadFile(const std::string& filename, Model &model) {
   std::fstream fs;
   fs.open(filename.c_str());
   if (!fs.is_open()) {
@@ -15,6 +15,8 @@ int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &ve
   }
   std::cout << "start loading obj file..." << std::endl;
   float startTime = glfwGetTime();
+  std::string materialFile = "";
+  std::string materialName = "";
   std::string line;
   std::unordered_map<std::string, int> vertexMap;
   std::vector<glm::vec3> tempVertex;
@@ -23,6 +25,10 @@ int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &ve
   tempVertex.push_back(glm::vec3(0, 0, 0));
   tempNormal.push_back(glm::vec3(0, 0, 0));
   tempTexture.push_back(glm::vec2(0, 0));
+
+  std::vector<Vertex> vertices;
+  std::vector<glm::vec3> indices;
+
   while (getline(fs, line)) {
     if (line.size() == 0) {
       continue;
@@ -35,14 +41,17 @@ int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &ve
     if (type == "vt") {
       ss >> x >> y;
       tempTexture.push_back(glm::vec2(x, y));
+      continue;
     }
     if (type == "vn") {
       ss >> x >> y >> z;
       tempNormal.push_back(glm::vec3(x, y, z));
+      continue;
     }
     if (type == "v") {
       ss >> x >> y >> z;
       tempVertex.push_back(glm::vec3(x, y, z));
+      continue;
     }
     if (type == "f") {
       std::string vertexStr;
@@ -81,6 +90,14 @@ int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &ve
         }
       }
       indices.push_back(glm::ivec3(faceIndices[0], faceIndices[1], faceIndices[2]));
+      continue;
+    }
+    if (type == "mtllib") {
+      ss >> materialFile;
+      continue;
+    }
+    if (type == "usemtl") {
+      ss >> materialName;
     }
   }
   std::cout << "finish loading obj file, took " << glfwGetTime() - startTime << " seconds." << std::endl;

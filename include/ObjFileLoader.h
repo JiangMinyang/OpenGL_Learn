@@ -5,6 +5,7 @@
 #include <vector>
 #include "glm/glm.hpp"
 #include "Vertex.h"
+#include "Model.h"
 
 class ObjFileLoader {
 public:
