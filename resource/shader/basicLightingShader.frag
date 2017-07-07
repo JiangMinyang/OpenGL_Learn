@@ -22,6 +22,6 @@ void main() {
 
   float diffuse = max(dot(normalize(normalVec), normalize(lightVec)), 0.0);
   float specular = pow(max(dot(normalize(viewVec), normalize(reflect(-lightVec, normalVec))), 0.0), material.shininess);
-  // FragColor = vec4((material.ambient + diffuse * material.diffuse + specular * material.specular), 1.0) * vec4(1.0, 1.0, 1.0, 1.0);
-  FragColor = vec4((diffuse * material.diffuse + specular * material.specular), 1.0) * vec4(1.0, 1.0, 1.0, 1.0);
+  FragColor = vec4((material.ambient + diffuse * material.diffuse + specular * material.specular), 1.0) * vec4(1.0, 1.0, 1.0, 1.0);
+  // FragColor = vec4((diffuse * material.diffuse + specular * material.specular), 1.0) * vec4(1.0, 1.0, 1.0, 1.0);
 }
