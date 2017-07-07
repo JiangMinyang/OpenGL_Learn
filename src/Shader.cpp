@@ -66,11 +66,11 @@ void Shader::linkShader() {
   }
 }
 
-void Shader::activate() {
+void Shader::activate() const {
   glUseProgram(program);
 }
 
-GLuint Shader::getProgram() {
+GLuint Shader::getProgram() const {
   return program;
 }
 
@@ -93,26 +93,33 @@ void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const 
   }
 }
 
-void Shader::setIntVector(const char* name, const glm::ivec3 &value) {
-  GLuint location = glGetUniformLocation(program, name);
+void Shader::setIntVector(const std::string &name, const glm::ivec3 &value) const {
+  GLuint location = glGetUniformLocation(program, name.c_str());
   glUniform3iv(location, 1, glm::value_ptr(value));
 }
 
-void Shader::setFloatVector(const char* name, const glm::vec3 &value) {
-  GLuint location = glGetUniformLocation(program, name);
+void Shader::setFloatVector(const std::string &name, const glm::vec3 &value) const {
+  GLuint location = glGetUniformLocation(program, name.c_str());
   glUniform3fv(location, 1, glm::value_ptr(value));
 }
 
-void Shader::setMatrix(const char* name, const glm::mat4 &value) {
-  GLuint location = glGetUniformLocation(program, name);
+void Shader::setMatrix(const std::string &name, const glm::mat4 &value) const {
+  GLuint location = glGetUniformLocation(program, name.c_str());
   glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
 
-void Shader::setInt(const char* name, const int &value) {
-  GLuint location = glGetUniformLocation(program, name); 
+void Shader::setInt(const std::string &name, const int &value) const {
+  GLuint location = glGetUniformLocation(program, name.c_str()); 
   glUniform1i(location, value);
 }
-void Shader::setFloat(const char* name, const float &value) {
-  GLuint location = glGetUniformLocation(program, name); 
+void Shader::setFloat(const std::string &name, const float &value) const {
+  GLuint location = glGetUniformLocation(program, name.c_str()); 
   glUniform1f(location, value);
+}
+
+void Shader::setMaterial(const std::string &name, const Material &material) const {
+  setFloatVector(name + ".ambient", material.getAmbient());
+  setFloatVector(name + ".diffuse", material.getDiffuse());
+  setFloatVector(name + ".specular", material.getSpecular());
+  setFloat(name + ".shininess", material.getShininess());
 }
