@@ -1,43 +1,45 @@
 #include "Material.h"
 
-Material::Material(std::string name) : name(name) {}
+Material::Material() {}
+
+Material::Material(const std::string &name) : name(name) {}
 
 Material::Material(const std::string &name, const glm::vec3 &ambient, const glm::vec3 &diffuse, const glm::vec3 &specular)
   : name(name), ambient(ambient), diffuse(diffuse), specular(specular) {}
 
-std::string Material::getName() {
+std::string Material::getName() const {
   return name;
 }
 
-float Material::getShininess() {
+float Material::getShininess() const {
   return shininess;
 }
 
-float Material::getDissolve() {
+float Material::getDissolve() const {
   return dissolve;
 }
 
-float Material::getOpticalDensity() {
+float Material::getOpticalDensity() const {
   return opticalDensity;
 }
 
-glm::vec3 Material::getAmbient() {
+glm::vec3 Material::getAmbient() const {
   return ambient;
 }
 
-glm::vec3 Material::getDiffuse() {
+glm::vec3 Material::getDiffuse() const {
   return diffuse;
 }
 
-glm::vec3 Material::getSpecular() {
+glm::vec3 Material::getSpecular() const {
   return specular;
 }
 
-glm::vec3 Material::getEmissive() {
+glm::vec3 Material::getEmissive() const {
   return emissive;
 }
 
-int Material::getIllumination() {
+int Material::getIllumination() const {
   return illumination;
 }
 

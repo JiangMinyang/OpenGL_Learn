@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
+Mesh::Mesh() {};
+
 Mesh::Mesh(const std::string& name) : name(name) {}
 
 Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices) {
@@ -57,11 +59,11 @@ void Mesh::setup(std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices
   glBindVertexArray(0);
 }
 
-std::string Mesh::getName() {
+std::string Mesh::getName() const {
   return name;
 }
 
-std::string Mesh::getMaterialName() {
+std::string Mesh::getMaterialName() const {
   return materialName;
 }
 

@@ -9,12 +9,13 @@
 
 class Mesh {
 public:
+  Mesh();
   Mesh(std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices);
   Mesh(const std::string &name);
   ~Mesh();
   void setup(std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices);
-  std::string getName();
-  std::string getMaterialName();
+  std::string getName() const;
+  std::string getMaterialName() const;
   Mesh& setName(const std::string &name);
   Mesh& setMaterialName(const std::string &materialName);
   

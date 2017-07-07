@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <iostream>
 
-int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &vertices, std::vector<glm::ivec3> &indices) {
+int ObjFileLoader::loadObjectFile(const std::string& filename, Model &model) {
   std::fstream fs;
   fs.open(filename.c_str());
   if (!fs.is_open()) {
@@ -15,6 +15,8 @@ int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &ve
   }
   std::cout << "start loading obj file..." << std::endl;
   float startTime = glfwGetTime();
+  std::string materialFile = "";
+  std::string objectName = "";
   std::string line;
   std::unordered_map<std::string, int> vertexMap;
   std::vector<glm::vec3> tempVertex;
@@ -23,6 +25,10 @@ int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &ve
   tempVertex.push_back(glm::vec3(0, 0, 0));
   tempNormal.push_back(glm::vec3(0, 0, 0));
   tempTexture.push_back(glm::vec2(0, 0));
+
+  std::vector<Vertex> vertices;
+  std::vector<glm::ivec3> indices;
+
   while (getline(fs, line)) {
     if (line.size() == 0) {
       continue;
@@ -35,14 +41,17 @@ int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &ve
     if (type == "vt") {
       ss >> x >> y;
       tempTexture.push_back(glm::vec2(x, y));
+      continue;
     }
     if (type == "vn") {
       ss >> x >> y >> z;
       tempNormal.push_back(glm::vec3(x, y, z));
+      continue;
     }
     if (type == "v") {
       ss >> x >> y >> z;
       tempVertex.push_back(glm::vec3(x, y, z));
+      continue;
     }
     if (type == "f") {
       std::string vertexStr;
@@ -81,9 +90,104 @@ int ObjFileLoader::loadFile(const std::string& filename, std::vector<Vertex> &ve
         }
       }
       indices.push_back(glm::ivec3(faceIndices[0], faceIndices[1], faceIndices[2]));
+      continue;
+    }
+    if (type == "o") {
+      if (vertices.size() > 0) {
+        model.setupMesh(objectName, vertices, indices);
+        vertices.clear();
+        indices.clear();
+        vertexMap.clear();
+      }
+      ss >> objectName;
+      model.addMesh(Mesh(objectName)); 
+      continue;
+    }
+
+    if (type == "usemtl") {
+      std::string materialName;
+      ss >> materialName;
+      if (model.getMesh(objectName).getMaterialName() != "") {
+        model.setupMesh(objectName, vertices, indices);
+        indices.clear();
+        vertexMap.clear();
+        objectName += "_2";
+        model.addMesh(Mesh(objectName));
+      }
+      model.setMaterial(objectName, materialName);
+      continue;
+    }
+    if (type == "mtllib") {
+      ss >> materialFile;
     }
   }
+  if (vertices.size() > 0) {
+    model.setupMesh(objectName, vertices, indices);
+  }
   std::cout << "finish loading obj file, took " << glfwGetTime() - startTime << " seconds." << std::endl;
+  fs.close();
+  if (materialFile != "") {
+    loadMaterialFile(filename.substr(0, filename.rfind("/") + 1) + materialFile, model);
+  }
+  return 0;
+}
+
+int ObjFileLoader::loadMaterialFile(const std::string& filename, Model &model) {
+  std::fstream fs;
+  fs.open(filename.c_str());
+  if (!fs.is_open()) {
+    std::cerr << "cannot load " << filename << std::endl;
+    return -1;
+  }
+  std::cout << "start loading mtl file..." << std::endl;
+  float startTime = glfwGetTime();
+  std::string line;
+  Material material("");
+
+  while (getline(fs, line)) {
+    if (line.size() == 0) {
+      continue;
+    }
+    std::stringstream ss;
+    std::string type;
+    float x, y, z;
+    ss.str(line);
+    ss >> type;
+    if (type == "newmtl") {
+      if (material.getName() != "") {
+        model.addMaterial(material);
+      }
+      std::string materialName;
+      ss >> materialName;
+      material = Material(materialName);
+      continue;
+    }
+    if (type == "Ns") {
+      ss >> x;
+      material.setShininess(x);
+      continue;
+    }
+    if (type == "Ka") {
+      ss >> x >> y >> z;
+      material.setAmbient(glm::vec3(x, y, z));
+      continue;
+    }
+    if (type == "Kd") {
+      ss >> x >> y >> z;
+      material.setDiffuse(glm::vec3(x, y, z));
+      continue;
+    }
+    if (type == "Ks") {
+      ss >> x >> y >> z;
+      material.setSpecular(glm::vec3(x, y, z));
+      continue;
+    }
+  }
+  if (material.getName() != "") {
+    model.addMaterial(material);
+  }
+
+  std::cout << "finish loading mtl file, took " << glfwGetTime() - startTime << " seconds." << std::endl;
   fs.close();
   return 0;
 }
