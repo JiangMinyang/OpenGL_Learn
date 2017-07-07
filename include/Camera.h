@@ -18,8 +18,8 @@ public:
   static constexpr float DEFAULT_YAW = -90;
   static constexpr float DEFAULT_PITCH = 0;
   static constexpr float DEFAULT_ZOOM = 45;
-  static constexpr float DEFAULT_SPEED = 3;
-  static constexpr float DEFAULT_SENSITIVTY = 0.1;
+  static constexpr float DEFAULT_SPEED = 4;
+  static constexpr float DEFAULT_SENSITIVTY = 0.2;
 
   Camera(const glm::vec3 cameraPosition = glm::vec3(0.0, 0.0, 0.0), const glm::vec3 worldUp = glm::vec3(0.0, 1.0, 0.0), float yaw = DEFAULT_YAW, float pitch = DEFAULT_PITCH);
   glm::mat4 getView();
