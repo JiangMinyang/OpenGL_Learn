@@ -95,9 +95,8 @@ int ObjFileLoader::loadObjectFile(const std::string& filename, Model &model) {
     if (type == "o") {
       if (vertices.size() > 0) {
         model.setupMesh(objectName, vertices, indices);
-        // vertices.clear();
+        vertices.clear();
         indices.clear();
-        // vertexMap.clear();
       }
       ss >> objectName;
       model.addMesh(Mesh(objectName)); 
@@ -110,7 +109,6 @@ int ObjFileLoader::loadObjectFile(const std::string& filename, Model &model) {
       if (model.getMesh(objectName).getMaterialName() != "") {
         model.setupMesh(objectName, vertices, indices);
         indices.clear();
-        // vertexMap.clear();
         objectName += "_2";
         model.addMesh(Mesh(objectName));
       }
