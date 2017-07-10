@@ -12,6 +12,8 @@ void Model::draw(const Shader &shader) {
     
     if (materials.find(it->second.getMaterialName()) != materials.end()) {
       shader.setMaterial("material", materials[it->second.getMaterialName()]);
+    } else {
+      shader.setMaterial("material", materials["default"]);
     }
     it->second.bind();
     it->second.draw();

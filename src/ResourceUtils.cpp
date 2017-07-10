@@ -21,6 +21,7 @@ std::string ResourceUtils::getResourceType(const std::string& filename) {
   shaderExtension.insert("vert");
   shaderExtension.insert("frag");
   objectExtension.insert("obj");
+  objectExtension.insert("mtl");
   if (imageExtension.find(extension) != imageExtension.end()) {
     folder = "/image";
   } else if (shaderExtension.find(extension) != shaderExtension.end()) {

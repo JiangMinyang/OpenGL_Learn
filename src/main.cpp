@@ -102,7 +102,9 @@ int main(void) {
   float start = glfwGetTime();
   // ObjFileLoader::loadFile("/Users/Minyang/Downloads/dragon.obj", vertices, vertexIndices);
   Model model;
-  ObjFileLoader::loadObjectFile(ResourceUtils::getResourcePath("chess.obj"), model);
+  ObjFileLoader::loadObjectFile(ResourceUtils::getResourcePath("teapotWithNorm.obj"), model);
+  // ObjFileLoader::loadObjectFile(ResourceUtils::getResourcePath("chess.obj"), model);
+  ObjFileLoader::loadMaterialFile(ResourceUtils::getResourcePath("default.mtl"), model);
 
   glm::vec3 lightSourceLocation = glm::vec3(-3.0, 3.0, 3.0);
   glm::vec3 lightSourceDirection = glm::vec3(1.0, 1.0, 1.0);
